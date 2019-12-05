@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bouncing Box</title>
+	<script src="jquery.min.js"></script>
+
+<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
+	<!-- BEGIN CSS -->
+	<style>
+        .board {
+        background-image: url("https://images7.alphacoders.com/454/454238.jpg");
+        background-repeat: no-repeat;
+        background-size: 1900px, 1900px;
+        }
+
+		/* TODO 1 */
+		.box {
+			width: 90px;
+			height: 90px;
+			background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy0E7D3ZrkbQDTSUV_21chW9T1VvcIvJ2gO_hIG4rDchT-ZummQw");
+			background-size: contain;
+			background-repeat: no-repeat;
+			font-size: 300%;
+			text-align: center;
+			display: block;
+			position: absolute;
+			top: 100px;
+			left: 0px;
+		}
+		
+	</style>
+
+</head>
+<body class="board">
+	<!-- HTML for the box -->
+	<div class="box">?</div>
+
+	<!-- BEGIN JAVASCRIPT -->
+	<script>
+		(function(){
+			'use strict';
+			/* global jQuery */
+
+			// jQuery stuff setup for you
+			var box = jQuery('.box');
+			var boardWidth = jQuery('.board').width();
+	
+			// TODO 2 - Variable declarations 
+
+            var position = 0; 
+            var points = 0;         
+            var speed = 10;          
+            var direction = 1;     
+            
+            box.css('left', position);
+            box.text(points);  
+            			
+			function update() {
+				// TODO 3 / 6 / 7 / 8
+				
+				position += speed * direction;   
+                
+                 if (position > boardWidth) {
+                    direction = -1;    
+                }
+                
+                if (position < 0){
+                    direction = 1;
+                }
+                
+				box.css('left', position);
+			
+			}
+
+
+			
+			function handleBoxClick() {
+				// TODO 4 / 5
+				points += 1;
+				box.text(points);
+				 position = 0;         
+                 speed += 3;    
+			}
+
+
+			//this executes the update function code every 50 milliseconds
+			setInterval(update, 50);
+			// this executes the handleBoxClick function code every time the box is clicked on
+			box.on('click', handleBoxClick);
+		})();
+	</script>
+</body>
+</html>
