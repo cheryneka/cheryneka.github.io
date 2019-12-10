@@ -19,9 +19,7 @@ var level01 = function (window) {
                 {type: 'sawblade',x:400,y:groundY},
                 {type: 'sawblade',x:600,y:groundY},
                 {type: 'sawblade',x:900,y:groundY},
-                {type: 'sawblade',x:200,y:groundY}
-            ],
-            gameObjects: [
+                {type: 'sawblade',x:200,y:groundY},
                 {type: 'street-light',x:250,y:groundY},
                 {type: 'street-light',x:500,y:groundY},
                 {type: 'street-light',x:800,y:groundY},
@@ -31,7 +29,7 @@ var level01 = function (window) {
         window.levelData = levelData;
 
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(false);
+        game.setDebugMode(true);
 
         // BEGIN EDITING YOUR CODE HERE
         function createSawBlade(x,y) {
@@ -52,31 +50,26 @@ var level01 = function (window) {
             var gameItem = levelData.gameItems[i];
             var x = gameItem.x;
             var y = gameItem.y;
+            var type = gameItem.type;
 
-            createSawBlade(x, y);
+            if (type === 'sawblade') {
+                createSawBlade(x, y);
+            }
+
+            else if (type === 'street-light') {
+                createBox(x,y);
+            }
+            var enemy =  game.createGameItem('enemy',25);
+            var redSquare = draw.rect(50,50,'red');
+            redSquare.x = -25;
+            redSquare.y = -25;
+            enemy.addChild(redSquare);
+            enemy.x = 400;
+            enemy.y = groundY-50;
+            game.addGameItem(enemy);
         }
 
-        function createBox(x,y) {
-            var hitZoneSize = 25;
-            var damageFromObstacle = 20;
-            var myObstacle = game.createObstacle(hitZoneSize,damageFromObstacle);
-            myObstacle.x = x;
-            myObstacle.y = y;
-            game.addGameItem(myObstacle);
-
-            var obstacleImage = draw.bitmap('img/street-light.png');
-            myObstacle.addChild(obstacleImage);
-            obstacleImage.x = -25;
-            obstacleImage.y = -25;
-        }
-
-        for (var i = 0; i < levelData.gameObjects.length; i++) {
-            var gameItem = levelData.gameObjects[i];
-            var x = gameObject.x;
-            var y = gameObject.y;
-
-            createBox(x,y);
-        }
+    }
 };
 
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////
