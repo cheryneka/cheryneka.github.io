@@ -6,29 +6,77 @@ var level01 = function (window) {
     var createjs = window.createjs;
 
     window.opspark.runLevelInGame = function(game) {
-        // some useful constants 
+        // some useful constants
         var groundY = game.groundY;
 
         // this data will allow us to define all of the
         // behavior of our game
         var levelData = {
             name: "Robot Romp",
-            number: 1, 
+            number: 1,
             speed: -3,
             gameItems: [
                 {type: 'sawblade',x:400,y:groundY},
                 {type: 'sawblade',x:600,y:groundY},
-                {type: 'sawblade',x:900,y:groundY}
+                {type: 'sawblade',x:900,y:groundY},
+                {type: 'sawblade',x:200,y:groundY}
+            ],
+            gameObjects: [
+                {type: 'street-light',x:250,y:groundY},
+                {type: 'street-light',x:500,y:groundY},
+                {type: 'street-light',x:800,y:groundY},
+                {type: 'street-light',x:750,y:groundY},
             ]
         };
         window.levelData = levelData;
+
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(true);
+        game.setDebugMode(false);
 
         // BEGIN EDITING YOUR CODE HERE
+        function createSawBlade(x,y) {
+            var hitZoneSize = 25;
+            var damageFromObstacle = 20;
+            var myObstacle = game.createObstacle(hitZoneSize,damageFromObstacle);
+            myObstacle.x = x;
+            myObstacle.y = y;
+            game.addGameItem(myObstacle);
 
+            var obstacleImage = draw.bitmap('img/sawblade.png');
+            myObstacle.addChild(obstacleImage);
+            obstacleImage.x = -25;
+            obstacleImage.y = -25;
+        }
 
-    }
+        for (var i = 0; i < levelData.gameItems.length; i++) {
+            var gameItem = levelData.gameItems[i];
+            var x = gameItem.x;
+            var y = gameItem.y;
+
+            createSawBlade(x, y);
+        }
+
+        function createBox(x,y) {
+            var hitZoneSize = 25;
+            var damageFromObstacle = 20;
+            var myObstacle = game.createObstacle(hitZoneSize,damageFromObstacle);
+            myObstacle.x = x;
+            myObstacle.y = y;
+            game.addGameItem(myObstacle);
+
+            var obstacleImage = draw.bitmap('img/street-light.png');
+            myObstacle.addChild(obstacleImage);
+            obstacleImage.x = -25;
+            obstacleImage.y = -25;
+        }
+
+        for (var i = 0; i < levelData.gameObjects.length; i++) {
+            var gameItem = levelData.gameObjects[i];
+            var x = gameObject.x;
+            var y = gameObject.y;
+
+            createBox(x,y);
+        }
 };
 
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////
