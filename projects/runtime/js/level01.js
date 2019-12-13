@@ -16,14 +16,17 @@ var level01 = function (window) {
             number: 1,
             speed: -3,
             gameItems: [
-                {type: 'sawblade',x:400,y:groundY},
-                {type: 'sawblade',x:600,y:groundY},
-                {type: 'sawblade',x:900,y:groundY},
-                {type: 'sawblade',x:200,y:groundY},
-                {type: 'street-light',x:250,y:groundY},
-                {type: 'street-light',x:500,y:groundY},
-                {type: 'street-light',x:800,y:groundY},
-                {type: 'street-light',x:750,y:groundY},
+                {type: 'sawblade',x:400,y:groundY-563},
+                {type: 'sawblade',x:600,y:groundY-300},
+                {type: 'sawblade',x:900,y:groundY-250},
+                {type: 'sawblade',x:200,y:groundY-398},
+                {type: 'street-light',x:250,y:groundY-196},
+                {type: 'street-light',x:500,y:groundY-200},
+                {type: 'street-light',x:800,y:groundY-400},
+                {type: 'street-light',x:750,y:groundY-360},
+                {type: 'enemy',x:280,y:groundY-310},
+                {type: 'enemy',x:400,y:groundY-320},
+                {type: 'enemy',x:600,y:groundY-310},
             ]
         };
         window.levelData = levelData;
@@ -45,6 +48,26 @@ var level01 = function (window) {
             obstacleImage.x = -25;
             obstacleImage.y = -25;
         }
+        
+        function createEnemy() {
+                var enemy =  game.createGameItem('enemy',25);
+                var redSquare = draw.rect(50,50,'red');
+                redSquare.x = -25;
+                redSquare.y = -25;
+                enemy.addChild(redSquare);
+                enemy.x = 400;
+                enemy.y = groundY-50;
+                game.addGameItem(enemy);
+                enemy.velocityX = -3;
+                enemy.rotationalVelocity = 10;
+                enemy.onPlayerCollision = function() {
+                    game.changeIntegrity(5);
+                    enemy.fadeOut();
+                };
+                enemy.onProjectileCollision = function() {
+                    game.increaseScore(50);
+                };
+            }
 
         for (var i = 0; i < levelData.gameItems.length; i++) {
             var gameItem = levelData.gameItems[i];
@@ -59,14 +82,12 @@ var level01 = function (window) {
             else if (type === 'street-light') {
                 createBox(x,y);
             }
-            var enemy =  game.createGameItem('enemy',25);
-            var redSquare = draw.rect(50,50,'red');
-            redSquare.x = -25;
-            redSquare.y = -25;
-            enemy.addChild(redSquare);
-            enemy.x = 400;
-            enemy.y = groundY-50;
-            game.addGameItem(enemy);
+
+            else if (type === 'enemy') {
+                createEnemy(x,y);
+            }
+
+
         }
 
     }
